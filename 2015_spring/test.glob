@@ -1,0 +1,36 @@
+DIGEST 53a6511d6d8884ee4aa3ef3faa07b4a4
+Ftest
+R15:19 Coq.omega.Omega <> <> lib
+def 92:95 <> plus
+R116:118 Coq.Init.Datatypes <> nat ind
+R134:136 Coq.Init.Datatypes <> nat ind
+R149:149 test <> n var
+R160:160 Coq.Init.Datatypes <> O constr
+R165:165 test <> m var
+R171:171 Coq.Init.Datatypes <> S constr
+R178:178 Coq.Init.Datatypes <> S constr
+R181:184 test <> plus var
+R188:188 test <> m var
+def 222:224 <> sum
+R231:233 Coq.Init.Datatypes <> nat ind
+R238:240 Coq.Init.Datatypes <> nat ind
+R253:253 test <> n var
+R264:264 Coq.Init.Datatypes <> O constr
+R275:275 Coq.Init.Datatypes <> S constr
+R287:289 Coq.Init.Peano <> :nat_scope:x_'+'_x not
+R282:284 test <> sum def
+R290:290 test <> n var
+R317:319 test <> sum def
+R342:344 test <> sum def
+prf 357:363 <> sum_eqn
+R388:390 Coq.Init.Logic <> :type_scope:x_'='_x not
+R380:382 Coq.Init.Peano <> :nat_scope:x_'*'_x not
+R383:385 test <> sum def
+R387:387 test <> n var
+R392:395 Coq.Init.Peano <> :nat_scope:x_'*'_x not
+R401:401 Coq.Init.Peano <> :nat_scope:x_'*'_x not
+R391:391 test <> n var
+R397:399 Coq.Init.Peano <> :nat_scope:x_'+'_x not
+R396:396 test <> n var
+R460:476 Coq.Arith.Mult <> mult_plus_distr_l thm
+R460:476 Coq.Arith.Mult <> mult_plus_distr_l thm

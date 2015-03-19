@@ -1,0 +1,122 @@
+DIGEST 7351a951270d062133522470561c04bb
+Ftest2
+ind 10:12 <> nat
+constr 28:28 <> O
+constr 40:40 <> S
+R32:34 test2 <> nat ind
+R51:53 test2 <> nat ind
+R44:46 test2 <> nat ind
+ind 67:69 <> day
+constr 85:90 <> monday
+constr 102:108 <> tuesday
+constr 120:128 <> wednesday
+constr 140:147 <> thursday
+constr 159:164 <> friday
+constr 176:183 <> saturday
+constr 195:200 <> sunday
+R94:96 test2 <> day ind
+R112:114 test2 <> day ind
+R132:134 test2 <> day ind
+R151:153 test2 <> day ind
+R168:170 test2 <> day ind
+R187:189 test2 <> day ind
+R204:206 test2 <> day ind
+def 221:232 <> next_weekday
+R239:241 test2 <> day ind
+R246:248 test2 <> day ind
+R260:260 test2 <> d var
+R270:275 test2 <> monday constr
+R280:286 test2 <> tuesday constr
+R291:297 test2 <> tuesday constr
+R302:310 test2 <> wednesday constr
+R315:323 test2 <> wednesday constr
+R328:335 test2 <> thursday constr
+R340:347 test2 <> thursday constr
+R352:357 test2 <> friday constr
+R362:367 test2 <> friday constr
+R372:379 test2 <> saturday constr
+R384:391 test2 <> saturday constr
+R396:401 test2 <> sunday constr
+R406:411 test2 <> sunday constr
+R416:421 test2 <> monday constr
+R447:458 test2 <> next_weekday def
+R460:465 test2 <> friday constr
+R486:497 test2 <> next_weekday def
+R500:511 test2 <> next_weekday def
+R513:520 test2 <> saturday constr
+def 534:550 <> test_next_weekday
+R555:555 Coq.Init.Logic <> :type_scope:x_'='_x not
+R592:595 Coq.Init.Logic <> :type_scope:x_'='_x not
+R556:567 test2 <> next_weekday def
+R570:581 test2 <> next_weekday def
+R583:590 test2 <> saturday constr
+R596:601 test2 <> monday constr
+ind 671:674 <> bool
+constr 689:692 <> true
+constr 704:708 <> false
+R696:699 test2 <> bool ind
+R712:715 test2 <> bool ind
+def 730:733 <> negb
+R738:741 test2 <> bool ind
+R746:749 test2 <> bool ind
+R761:761 test2 <> b var
+R771:774 test2 <> true constr
+R779:783 test2 <> false constr
+R788:792 test2 <> false constr
+R797:800 test2 <> true constr
+def 819:822 <> andb
+R828:831 test2 <> bool ind
+R838:841 test2 <> bool ind
+R854:855 test2 <> b1 var
+R865:868 test2 <> true constr
+R873:874 test2 <> b2 var
+R879:883 test2 <> false constr
+R887:891 test2 <> false constr
+def 910:912 <> orb
+R918:921 test2 <> bool ind
+R928:931 test2 <> bool ind
+R936:939 test2 <> bool ind
+R951:952 test2 <> b1 var
+R962:965 test2 <> true constr
+R970:973 test2 <> true constr
+R978:982 test2 <> false constr
+R987:988 test2 <> b2 var
+def 1008:1012 <> andb2
+R1018:1021 test2 <> bool ind
+R1028:1031 test2 <> bool ind
+R1034:1037 test2 <> bool ind
+R1049:1050 test2 <> b2 var
+R1060:1063 test2 <> true constr
+R1068:1069 test2 <> b1 var
+R1074:1078 test2 <> false constr
+R1083:1087 test2 <> false constr
+prf 1101:1113 <> andb_eq_andb2
+R1131:1134 test2 <> bool ind
+R1149:1151 Coq.Init.Logic <> :type_scope:x_'='_x not
+R1139:1142 test2 <> andb def
+R1147:1148 test2 <> b2 var
+R1144:1145 test2 <> b1 var
+R1152:1156 test2 <> andb2 def
+R1161:1162 test2 <> b2 var
+R1158:1159 test2 <> b1 var
+def 1367:1370 <> nand
+R1376:1379 test2 <> bool ind
+R1386:1389 test2 <> bool ind
+R1392:1395 test2 <> bool ind
+R1401:1404 test2 <> negb def
+R1406:1409 test2 <> andb def
+R1414:1415 test2 <> b2 var
+R1411:1412 test2 <> b1 var
+def 1429:1432 <> plus
+R1439:1441 test2 <> nat ind
+R1449:1451 test2 <> nat ind
+R1456:1458 test2 <> nat ind
+R1470:1470 test2 <> n var
+R1480:1480 test2 <> O constr
+R1485:1485 test2 <> m var
+R1490:1490 test2 <> S constr
+R1498:1498 test2 <> S constr
+R1501:1504 test2 <> plus def
+R1509:1509 test2 <> m var
+R1540:1543 test2 <> plus def
+not 1528 <> :nat_scope:x_'+'_x
