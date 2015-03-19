@@ -1,0 +1,27 @@
+DIGEST ff6ec2815da77b6bef49d16843c24a4f
+FLists
+mod 7:13 <> NatList
+ind 28:34 NatList natprod
+constr 47:50 NatList pair
+R68:74 Lists <> natprod ind
+R61:63 Coq.Init.Datatypes <> nat ind
+R54:56 Coq.Init.Datatypes <> nat ind
+R86:89 Lists NatList pair constr
+def 109:111 NatList fst
+R118:124 Lists NatList natprod ind
+R129:131 Coq.Init.Datatypes <> nat ind
+R143:143 Lists <> p var
+R153:156 Lists NatList pair constr
+def 185:187 NatList snd
+R194:200 Lists NatList natprod ind
+R205:207 Coq.Init.Datatypes <> nat ind
+R219:219 Lists <> p var
+R229:232 Lists NatList pair constr
+R267:269 Lists NatList fst def
+R272:275 Lists NatList pair constr
+R310:313 Lists NatList pair constr
+not 294 NatList ::'('_x_','_x_')'
+R339:341 Lists NatList fst def
+R343:343 Lists NatList ::'('_x_','_x_')' not
+R345:346 Lists NatList ::'('_x_','_x_')' not
+R348:348 Lists NatList ::'('_x_','_x_')' not
