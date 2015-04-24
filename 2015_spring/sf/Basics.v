@@ -527,12 +527,19 @@ Fixpoint exp (base power : nat) : nat :=
     Translate this into Coq. *)
 
 Fixpoint factorial (n:nat) : nat := 
-(* FILL IN HERE *) admit.
+    match n with
+    | O => 1
+    | S p => (S p) * (factorial p)
+end.
 
 Example test_factorial1:          (factorial 3) = 6.
-(* FILL IN HERE *) Admitted.
+Proof.
+    reflexivity.
+Qed.
 Example test_factorial2:          (factorial 5) = (mult 10 12).
-(* FILL IN HERE *) Admitted.
+Proof.
+    reflexivity.
+Qed.
 
 (** [] *)
 
@@ -608,14 +615,41 @@ Proof. reflexivity.  Qed.
     this one, define it in terms of a previously defined function. *)
 
 Definition blt_nat (n m : nat) : bool :=
-  (* FILL IN HERE *) admit.
+    (*match n with
+    | O =>
+        match m with
+        | O => false
+        | S _ => true
+        end
+    | S n' =>
+        match m with
+        | O => false
+        | S m' => (blt_nat n' m')
+        end
+    end.*)
+    match (ble_nat n m) with
+    | true =>
+        match (beq_nat n m) with
+        | true => false
+        | false => true
+        end
+    | false => false
+    end.
 
 Example test_blt_nat1:             (blt_nat 2 2) = false.
-(* FILL IN HERE *) Admitted.
+Proof.
+    reflexivity.
+Qed.
 Example test_blt_nat2:             (blt_nat 2 4) = true.
-(* FILL IN HERE *) Admitted.
+Proof.
+    unfold blt_nat.
+    simpl.
+    reflexivity.
+Qed.
 Example test_blt_nat3:             (blt_nat 4 2) = false.
-(* FILL IN HERE *) Admitted.
+Proof.
+    reflexivity.
+Qed.
 
 (** [] *)
 
@@ -757,7 +791,13 @@ Proof.
 Theorem plus_id_exercise : forall n m o : nat,
   n = m -> m = o -> n + m = m + o.
 Proof.
-  (* FILL IN HERE *) Admitted.
+    intros n m o.
+    intros H0.
+    intros H1.
+    rewrite H0.
+    rewrite <- H1.
+    reflexivity.
+Qed.
 (** [] *)
 
 (** As we've seen in earlier examples, the [Admitted] command
@@ -787,7 +827,12 @@ Theorem mult_S_1 : forall n m : nat,
   m = S n -> 
   m * (1 + n) = m * m.
 Proof.
-  (* FILL IN HERE *) Admitted.
+    intros n m.
+    intros H0.
+    simpl.
+    rewrite <- H0.
+    reflexivity.
+Qed.
 (** [] *)
 
 
@@ -872,7 +917,13 @@ Proof.
 Theorem zero_nbeq_plus_1 : forall n : nat,
   beq_nat 0 (n + 1) = false.
 Proof.
-  (* FILL IN HERE *) Admitted.
+    intros n.
+    destruct n as [| n'].
+    simpl.
+    reflexivity.
+    simpl.
+    reflexivity.
+Qed.
 
 (** [] *)
 
@@ -888,13 +939,34 @@ Theorem identity_fn_applied_twice :
   (forall (x : bool), f x = x) ->
   forall (b : bool), f (f b) = b.
 Proof.
-  (* FILL IN HERE *) Admitted.
+    intros f.
+    intros H0.
+    intros b.
+    destruct b.
+    rewrite H0.
+    rewrite H0.
+    reflexivity.
+    rewrite H0.
+    rewrite H0.
+    reflexivity.
+Qed.
 
 (** Now state and prove a theorem [negation_fn_applied_twice] similar
     to the previous one but where the second hypothesis says that the
     function [f] has the property that [f x = negb x].*)
 
-(* FILL IN HERE *)
+Theorem negation_fn_applied_twice :
+    forall (f : bool -> bool), (forall (x : bool), f x = negb x) -> forall (b : bool), f (f b) = b.
+Proof.
+    intros f H0 b.
+    rewrite H0.
+    rewrite H0.
+    destruct b.
+    simpl.
+    reflexivity.
+    simpl.
+    reflexivity.
+Qed.
 (** [] *)
 
 (** **** Exercise: 2 stars (andb_eq_orb)  *)
@@ -907,8 +979,22 @@ Theorem andb_eq_orb :
   (andb b c = orb b c) ->
   b = c.
 Proof.
-  (* FILL IN HERE *) Admitted.
+    intros b c.
+    intros H0.
+    destruct b.
+    destruct c.
+    reflexivity.
+    simpl in H0.
+    rewrite H0.
+    reflexivity.
+    destruct c.
+    simpl in H0.
+    rewrite H0.
+    reflexivity.
+    reflexivity.
+Qed.
 (** [] *)
+
 
 (** **** Exercise: 3 stars (binary)  *)
 (** Consider a different, more efficient representation of natural
@@ -1014,8 +1100,25 @@ Fixpoint plus' (n : nat) (m : nat) : nat :=
     [Fixpoint] definition (of a simple function on numbers, say) that
     _does_ terminate on all inputs, but that Coq will reject because
     of this restriction. *)
+(*
+Fixpoint test_func (n : nat) : bool :=
+    match n with
+    | O => (test_func (S O))
+    | S n' =>
+        match (beq_nat n 11) with
+        | true => true
+        | false => 
+            match (ble_nat n 11) with
+            | true => (test_func (S n))
+            | false => false
+            end
+        end
+    end
+.
 
-(* FILL IN HERE *)
+Above function definitely finishes execution, since if n is less than or equal to
+11, it returns true, else false. But it is based on increasing n, not decreasing n.
+So, Coq will determine that this fixpoint definition is ill-formed.*)
 (** [] *)
 
 (** $Date: 2014-12-31 15:31:47 -0500 (Wed, 31 Dec 2014) $ *)
