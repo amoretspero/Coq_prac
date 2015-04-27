@@ -374,7 +374,10 @@ Definition list123''' := [1; 2; 3].
     and complete the proofs below. *)
 
 Fixpoint repeat {X : Type} (n : X) (count : nat) : list X :=
-  (* FILL IN HERE *) admit.
+    match count with
+    | O => nil
+    | S p => n :: (repeat n p)
+    end.
 
 Example test_repeat1:
   repeat true 2 = cons true (cons true nil).
