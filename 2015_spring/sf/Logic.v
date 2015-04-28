@@ -214,7 +214,10 @@ Proof.
 Theorem proj2 : forall P Q : Prop, 
   P /\ Q -> Q.
 Proof.
-  (* FILL IN HERE *) Admitted.
+    intros P Q H0.
+    destruct H0 as [H0_P H0_Q].
+    apply H0_Q.
+Qed.
 (** [] *)
 
 Theorem and_commut : forall P Q : Prop, 
@@ -236,9 +239,18 @@ Proof.
 Theorem and_assoc : forall P Q R : Prop, 
   P /\ (Q /\ R) -> (P /\ Q) /\ R.
 Proof.
-  intros P Q R H.
-  destruct H as [HP [HQ HR]].
-(* FILL IN HERE *) Admitted.
+    intros P Q R H.
+    destruct H as [HP [HQ HR]].
+    split.
+    Case "P /\ Q".
+        split.
+        SCase "P".
+            apply HP.
+        SCase "Q".
+            apply HQ.
+    Case "R".
+        apply HR.
+Qed.
 (** [] *)
 
 
@@ -278,12 +290,34 @@ Proof.
 Theorem iff_refl : forall P : Prop, 
   P <-> P.
 Proof. 
-  (* FILL IN HERE *) Admitted.
+    intros P.
+    split.
+    intros H1.
+    apply H1.
+    intros H2.
+    apply H2.
+Qed.
 
 Theorem iff_trans : forall P Q R : Prop, 
   (P <-> Q) -> (Q <-> R) -> (P <-> R).
 Proof.
-  (* FILL IN HERE *) Admitted.
+    intros P Q R.
+    intros H0.
+    intros H1.
+    destruct H0 as [HAB0 HBA0].
+    destruct H1 as [HAB1 HBA1].
+    split.
+    Case "P -> R".
+        intros H2.
+        apply HAB0 in H2.
+        apply HAB1 in H2.
+        apply H2.
+    Case "R -> P".
+        intros H3.
+        apply HBA1 in H3.
+        apply HBA0 in H3.
+        apply H3.
+Qed.
 
 (** Hint: If you have an iff hypothesis in the context, you can use
     [inversion] to break it into two separate implications.  (Think
@@ -377,14 +411,80 @@ Proof.
 Theorem or_distributes_over_and_2 : forall P Q R : Prop,
   (P \/ Q) /\ (P \/ R) -> P \/ (Q /\ R).
 Proof.
-  (* FILL IN HERE *) Admitted.
+    intros P Q R.
+    intros H0.
+    destruct H0 as [[HP0 | HQ0] [HP0_1 | HR0]].
+    Case "HP0 /\ HP0_1".
+        SCase "left".
+            left.
+            apply HP0.
+    Case "HP0 /\ HR0".
+        SCase "left".
+            left.
+            apply HP0.
+    Case "HQ0 /\ HP0_1".
+        SCase "left".
+            left.
+            apply HP0_1.
+    Case "HQ0 /\ HR0".
+        SCase "right".
+            right.
+            split.
+            SSCase "left".
+                apply HQ0.
+            SSCase "right".
+                apply HR0.
+Qed.
+    
 (** [] *)
 
 (** **** Exercise: 1 star, optional (or_distributes_over_and)  *)
 Theorem or_distributes_over_and : forall P Q R : Prop,
   P \/ (Q /\ R) <-> (P \/ Q) /\ (P \/ R).
 Proof.
-  (* FILL IN HERE *) Admitted.
+    intros P Q R.
+    split.
+    Case "left to right".
+        intros H_LR.
+        destruct H_LR as [HLR_P | [HLR_Q HLR_R]].
+        SCase "HLR_P".
+            split.
+            SSCase "left".
+                left.
+                apply HLR_P.
+            SSCase "right".
+                left.
+                apply HLR_P.
+        SCase "HLR_Q /\ HLR_R".
+            split.
+            SSCase "left".
+                right.
+                apply HLR_Q.
+            SSCase "right".
+                right.
+                apply HLR_R.
+    Case "right to left".
+        intros H_RL.
+        destruct H_RL as [[HRL_P0 | HRL_Q] [HRL_P1 | HRL_R]].
+        SCase "HRL_P0 /\ HRL_P1".
+            left.
+            apply HRL_P0.
+        SCase "HRL_P0 /\ HRL_R".
+            left.
+            apply HRL_P0.
+        SCase "HRL_Q /\ HRL_P1".
+            left.
+            apply HRL_P1.
+        SCase "HRL_Q /\ HRL_R".
+            right.
+            split.
+            SSCase "left".
+                apply HRL_Q.
+            SSCase "right".
+                apply HRL_R.
+Qed.
+            
+            
 (** [] *)
 
 (* ################################################### *)
