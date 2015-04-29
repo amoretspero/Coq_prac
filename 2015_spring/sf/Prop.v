@@ -619,7 +619,6 @@ Theorem ev_plus_plus : forall n m p,
 Proof.
     intros n m p.
     intros H0 H1.
-    SearchAbout ev.
     apply ev_ev__ev with (n := n+n) (m := m+p).
     rewrite <- plus_assoc.
     rewrite plus_comm.
@@ -633,7 +632,6 @@ Proof.
     apply H0.
     rewrite plus_comm.
     apply H1.
-    SearchAbout double.
     rewrite <- double_plus.
     apply double_even.
 Qed.
@@ -730,7 +728,48 @@ Qed.
        forall l, pal l -> l = rev l.
 *)
 
-(* FILL IN HERE *)
+Inductive pal {X: Type} : list X -> Prop :=
+    | pal_nil : pal []
+    | pal_one : forall (x : X), pal [x]
+    | pal_cons : forall (x : X) (lst : list X), pal lst -> pal ((x :: lst) ++ (rev (x :: lst))).
+
+
+Theorem pal_app_rev {X : Type} :
+    forall (l : list X), pal (l ++ rev l).
+Proof.
+    intros l.
+    induction l.
+    Case "l = nil".
+        simpl.
+        apply pal_nil.
+    Case "l = h :: t".
+        simpl.
+        SearchAbout app.
+        apply pal_cons.
+        inversion IHl.
+        assert (forall {X : Type} (l : list X), [] = l ++ rev l -> l = []).
+            intros.
+            induction l0.
+            reflexivity.
+            inversion H.
+        apply H in H0.
+        rewrite H0.
+        apply pal_nil.
+        induction l.
+        apply pal_nil.
+        inversion H0.
+        assert (forall {X : Type} (l : list X), [] = l ++ rev l -> l = []).
+            intros.
+            induction l0.
+            reflexivity.
+            inversion H.
+        SearchAbout app.
+        rewrite <- snoc_with_append in H2.
+        inversion H2.
+        apply H in H2.
+        inversion H0.
+
+
 (** [] *)
 
 (* Again, the converse direction is much more difficult, due to the
@@ -852,66 +891,211 @@ Inductive next_even : nat -> nat -> Prop :=
 
 Lemma le_trans : forall m n o, m <= n -> n <= o -> m <= o.
 Proof.
-  (* FILL IN HERE *) Admitted.
-
+    intros m n o.
+    intros H0 H1.
+    induction H1.
+        apply H0.
+        apply le_S.
+        apply IHle.
+Qed.
+    
 Theorem O_le_n : forall n,
   0 <= n.
 Proof.
-  (* FILL IN HERE *) Admitted.
+    intros n.
+    induction n as [| n'].
+    Case "n = O".
+        apply le_n.
+    Case "n = S n'".
+        apply le_S.
+        apply IHn'.
+Qed.
 
 Theorem n_le_m__Sn_le_Sm : forall n m,
   n <= m -> S n <= S m.
 Proof. 
-  (* FILL IN HERE *) Admitted.
+    intros n m.
+    intros H.
+    induction H.
+    Case "n = m".
+        apply le_n.
+    Case "n <= S m0".
+        apply le_S.
+        apply IHle.
+Qed.
 
 
 Theorem Sn_le_Sm__n_le_m : forall n m,
   S n <= S m -> n <= m.
 Proof. 
-  (* FILL IN HERE *) Admitted.
+    intros n m H.
+    inversion H.
+    apply le_n.
+    apply le_trans with (m := n) (n := S n) (o := m).
+    apply le_S.
+    apply le_n.
+    apply H1.
+Qed.
+    
+        
+    
+    
+    
 
 
 Theorem le_plus_l : forall a b,
   a <= a + b.
 Proof. 
-  (* FILL IN HERE *) Admitted.
+    intros a b.
+    induction b.
+    Case "b = O".
+        rewrite plus_0_r.
+        apply le_n.
+    Case "b = S b".
+        rewrite plus_comm.
+        simpl.
+        rewrite plus_comm.
+        apply le_S.
+        apply IHb.
+Qed. 
 
 Theorem plus_lt : forall n1 n2 m,
   n1 + n2 < m ->
   n1 < m /\ n2 < m.
 Proof. 
- unfold lt. 
- (* FILL IN HERE *) Admitted.
+    unfold lt. 
+    intros n1 n2 m.
+    intros H.
+    split.
+    Case "left".
+        inversion H.
+        assert (forall n m, S(n + m) = S n + m).
+            intros.
+            simpl.
+            reflexivity.
+        rewrite H1.
+        apply le_plus_l.
+        apply le_S in H0.
+        apply le_trans with (m := S n1) (n := S (n1 + n2)) (o := S m0).
+        assert (forall n m, S(n + m) = S n + m).
+            intros.
+            simpl.
+            reflexivity.
+        rewrite H2.
+        apply le_plus_l.
+        apply H0.
+    Case "right".
+        inversion H.
+        assert (forall n m, S(n + m) = n + S m).
+            intros.
+            symmetry.
+            rewrite plus_comm.
+            simpl.
+            rewrite plus_comm.
+            reflexivity.
+        rewrite H1.
+        rewrite plus_comm.
+        apply le_plus_l.
+        apply le_S in H0.
+        apply le_trans with (m := S n2) (n := S (n1 + n2)) (o := S m0).
+        rewrite plus_comm.
+        assert (forall n m, S(n + m) = n + S m).
+            intros.
+            symmetry.
+            rewrite plus_comm.
+            simpl.
+            rewrite plus_comm.
+            reflexivity.
+        rewrite plus_comm.
+        rewrite H2.
+        rewrite plus_comm.
+        apply le_plus_l.
+        apply H0.
+Qed.
+        
 
 Theorem lt_S : forall n m,
   n < m ->
   n < S m.
 Proof.
-  (* FILL IN HERE *) Admitted.
+    intros n m.
+    unfold lt.
+    intros H.
+    apply le_S.
+    apply H.
+Qed.
+    
 
 Theorem ble_nat_true : forall n m,
   ble_nat n m = true -> n <= m.
 Proof. 
-  (* FILL IN HERE *) Admitted.
+    intros n m.
+    intros H.
+    generalize dependent m.
+    induction n.
+    intros m H0.
+    induction m.
+    reflexivity.
+    apply O_le_n.
+    intros m H1.
+    induction m.
+    inversion H1.
+    apply n_le_m__Sn_le_Sm.
+    apply IHn.
+    simpl in H1.
+    apply H1.
+Qed.
+    
 
 Theorem le_ble_nat : forall n m,
   n <= m ->
   ble_nat n m = true.
 Proof.
-  (* Hint: This may be easiest to prove by induction on [m]. *)
-  (* FILL IN HERE *) Admitted.
+    (* Hint: This may be easiest to prove by induction on [m]. *)
+    intros n m.
+    intros H.
+    generalize dependent n.
+    induction m.
+    intros n H0.
+    inversion H0.
+    simpl.
+    reflexivity.
+    intros n H1.
+    induction n.
+    simpl.
+    reflexivity.
+    simpl.
+    apply Sn_le_Sm__n_le_m in H1.
+    apply IHm.
+    apply H1.
+Qed.
 
 Theorem ble_nat_true_trans : forall n m o,
   ble_nat n m = true -> ble_nat m o = true -> ble_nat n o = true.                               
 Proof.
-  (* Hint: This theorem can be easily proved without using [induction]. *)
-  (* FILL IN HERE *) Admitted.
+    (* Hint: This theorem can be easily proved without using [induction]. *)
+    intros n m o.
+    intros H0 H1.
+    apply ble_nat_true in H0.
+    apply ble_nat_true in H1.
+    apply le_ble_nat.
+    apply le_trans with (m := n) (n := m) (o := o).
+    apply H0.
+    apply H1.
+Qed.
 
 (** **** Exercise: 2 stars, optional (ble_nat_false)  *)
 Theorem ble_nat_false : forall n m,
   ble_nat n m = false -> ~(n <= m).
 Proof.
-  (* FILL IN HERE *) Admitted.
+    intros n m.
+    intros H.
+    unfold not.
+    intros H0.
+    apply le_ble_nat in H0.
+    rewrite H0 in H.
+    inversion H.
+Qed.
 (** [] *)
 
 
