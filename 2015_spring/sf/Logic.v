@@ -522,20 +522,53 @@ Proof.
 Theorem andb_false : forall b c,
   andb b c = false -> b = false \/ c = false.
 Proof. 
-  (* FILL IN HERE *) Admitted.
+    intros b c.
+    intros H.
+    destruct b.
+    Case "b = true".
+        simpl in H.
+        right.
+        apply H.
+    Case "b = false".
+        left.
+        reflexivity.
+Qed.
 
 (** **** Exercise: 2 stars, optional (orb_false)  *)
 Theorem orb_prop : forall b c,
   orb b c = true -> b = true \/ c = true.
 Proof.
-  (* FILL IN HERE *) Admitted.
+    intros b c.
+    intros H.
+    destruct b.
+    Case "b = true".
+        left.
+        reflexivity.
+    Case "b = false".
+        simpl in H.
+        right.
+        apply H.
+Qed.
 
 (** **** Exercise: 2 stars, optional (orb_false_elim)  *)
 Theorem orb_false_elim : forall b c,
   orb b c = false -> b = false /\ c = false.
 Proof. 
-  (* FILL IN HERE *) Admitted.
+    intros b c.
+    intros H.
+    destruct b.
+    Case "b = true".
+        simpl in H.
+        inversion H.
+    Case "b = false".
+        split.
+        SCase "left".
+        reflexivity.
+        simpl in H.
+        apply H.
+Qed.
 (** [] *)
+
 
 
 
@@ -670,14 +703,29 @@ Proof.
 Theorem contrapositive : forall P Q : Prop,
   (P -> Q) -> (~Q -> ~P).
 Proof.
-  (* FILL IN HERE *) Admitted.
+    intros P Q.
+    intros H0.
+    intros H1.
+    unfold not.
+    unfold not in H1.
+    intros H2.
+    apply H0 in H2.
+    apply H1 in H2.
+    inversion H2.
+Qed.
 (** [] *)
 
 (** **** Exercise: 1 star (not_both_true_and_false)  *)
 Theorem not_both_true_and_false : forall P : Prop,
   ~ (P /\ ~P).
 Proof. 
-  (* FILL IN HERE *) Admitted.
+    intros P.
+    unfold not.
+    intros H0.
+    destruct H0 as [HP HPF].
+    apply HPF in HP.
+    inversion HP.
+Qed.
 (** [] *)
 
 (** **** Exercise: 1 star, advanced (informal_not_PNP)  *)
@@ -733,7 +781,17 @@ we would have both [~ (P \/ ~P)] and [~ ~ (P \/ ~P)], a contradiction. *)
 
 Theorem excluded_middle_irrefutable:  forall (P:Prop), ~ ~ (P \/ ~ P).  
 Proof.
-  (* FILL IN HERE *) Admitted.
+    intros P.
+    unfold not.
+    intros H0.
+    apply H0.
+    right.
+    intros HP.
+    induction H0.
+    left.
+    apply HP.
+Qed.
+    
 
 
 (* ########################################################## *)
@@ -778,14 +836,61 @@ Theorem false_beq_nat : forall n m : nat,
      n <> m ->
      beq_nat n m = false.
 Proof. 
-  (* FILL IN HERE *) Admitted.
+    intros n m.
+    intros H.
+    generalize dependent m.
+    induction n as [| n'].
+    Case "n = O".
+        intros m H0.
+        unfold not in H0.
+        induction m as [| m'].
+        SCase "m = O".
+            simpl.
+            apply ex_falso_quodlibet.
+            apply H0.
+            reflexivity.
+        SCase "m = S m'".
+            simpl.
+            reflexivity.
+    Case "n = S n'".
+        intros m H1.
+        induction m as [| m'].
+        SCase "m = O".
+            simpl.
+            reflexivity.
+        SCase "m = S m'".
+            unfold not in H1.
+            simpl.
+            apply IHn'.
+            unfold not.
+            intros H2.
+            apply H1.
+            apply f_equal.
+            apply H2.
+Qed.
 (** [] *)
 
 (** **** Exercise: 2 stars, optional (beq_nat_false)  *)
 Theorem beq_nat_false : forall n m,
   beq_nat n m = false -> n <> m.
 Proof.
-  (* FILL IN HERE *) Admitted.
+    intros n.
+    induction n as [| n'].
+    Case "n = O".
+        intros m H0.
+        unfold not.
+        intros H1.
+        rewrite <- H1 in H0.
+        simpl in H0.
+        inversion H0.
+    Case "n = S n'".
+        intros m H2.
+        unfold not.
+        intros H3.
+        rewrite H3 in H2.
+        rewrite <- beq_nat_refl in H2.
+        inversion H2.
+Qed.
 (** [] *)
 
 
